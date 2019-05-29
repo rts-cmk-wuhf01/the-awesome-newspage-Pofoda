@@ -16,7 +16,7 @@ For at teste alt er installeret og sat op som det skal, køres kommandoen `npm s
 Opgaven går ud på at få oprettet routes og templates for de sider der er med i det udleverede design.
 dvs, de html sider der findes i `public` mappen.
 
-Sørg for at have en `views` mappe som indeholder en `partials` mappe.
+Sørg for at have en `views` mappe som indeholder en `partials` mappe
 
 Hver side skal have sin egen `GET` route, som kalder en `.ejs`  template. 
 Der er en del elementer på hjemmesiden som går igen på alle siderne, dem skal du trække ud i individuelle `.ejs` filer som placeres i `partials` mappen og inkluderes efter behov.
