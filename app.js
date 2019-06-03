@@ -3,6 +3,9 @@ const express = require('express');
 // opret en express applikation 
 const app = express();
 
+// husk: npm install date-and-time --save
+app.locals.dateAndTime = require('date-and-time');
+
 
 
 /* aktiver serverside console.log af side indlæsninger. 

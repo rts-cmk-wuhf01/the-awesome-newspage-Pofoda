@@ -1,7 +1,13 @@
 module.exports = (app) => {
 
    app.get('/', (req, res, next) => {
-      res.render('home');
+      res.render('home', {
+         "dateTest":"2019-05-12"
+      });
+
+      // let now = new Date('2019-04-02 07:00:14');
+      // let formattedDate = app.locals.dateAndTime.format(now, 'D/M | ');
+      // console.log(formattedDate);
    });
    
    app.get('/catagories', (req, res, next) => {
