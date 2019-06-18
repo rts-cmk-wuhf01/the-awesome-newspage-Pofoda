@@ -1,3 +1,4 @@
+const mysql = require('../config/mysql');
 module.exports = (app) => {
 
    app.get('/', (req, res, next) => {
@@ -25,5 +26,17 @@ module.exports = (app) => {
    app.get('/single', (req, res, next) => {
       res.render('single-post');
    });
+
+   app.get('/database',  async (req,res,next)=>{
+      let db = await mysql.connect();
+      // udfør en (elelr flere) forespørgel(er)
+      let [products] = await db.execute('SELECT * FROM products');
+      // afslut forbindelsen til databasen
+      db.end();
+
+      res.render('products', {
+         'products': products
+      });
+});
 
 };
