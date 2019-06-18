@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Vært: 127.0.0.1
--- Genereringstid: 18. 06 2019 kl. 11:32:29
+-- Genereringstid: 18. 06 2019 kl. 12:17:52
 -- Serverversion: 10.1.30-MariaDB
 -- PHP-version: 7.2.1
 
@@ -25,19 +25,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur-dump for tabellen `articles`
---
-
-CREATE TABLE `articles` (
-  `article_id` int(11) NOT NULL,
-  `article_title` varchar(128) NOT NULL,
-  `article_text` varchar(8000) NOT NULL,
-  `article_image` varchar(128) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Struktur-dump for tabellen `categories`
 --
 
@@ -51,9 +38,9 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`category_id`, `category_title`) VALUES
-(1, 'sport'),
-(2, 'business'),
-(3, 'tech');
+(1, 'varme'),
+(2, 'kulde'),
+(4, 'Skadlige');
 
 -- --------------------------------------------------------
 
@@ -74,20 +61,14 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `fk_category_id`, `product_title`, `product_price`, `product_description`) VALUES
-(1, 0, 'kaffe', '15.00', 'Et alternativt skud energi'),
-(2, 0, 'The/Te', '5.00', 'Bare den sædvanlige, intet andet'),
-(3, 0, 'RedBull', '20.00', 'Livs-energi(en)'),
-(4, 0, 'Saft', '10.00', 'Blade og urter fra kompostbunken i gården, dens specielle lugt og overraskende kraftige energi tilskud undre selv eksperter, anbefales ikke til mennesker med helbredsproblemer');
+(1, 1, 'kaffe', '15.00', 'Et alternativt skud energi'),
+(2, 1, 'The/Te', '5.00', 'Bare den sædvanlige, intet andet'),
+(3, 2, 'RedBull', '20.00', 'Livs-energi(en)'),
+(5, 4, 'Saft', '10.00', 'Blade og urter fra kompostbunken i gården, dens specielle lugt og overraskende kraftige energi tilskud undre selv eksperter, anbefales ikke til mennesker med helbredsproblemer');
 
 --
 -- Begrænsninger for dumpede tabeller
 --
-
---
--- Indeks for tabel `articles`
---
-ALTER TABLE `articles`
-  ADD PRIMARY KEY (`article_id`);
 
 --
 -- Indeks for tabel `categories`
@@ -106,22 +87,16 @@ ALTER TABLE `products`
 --
 
 --
--- Tilføj AUTO_INCREMENT i tabel `articles`
---
-ALTER TABLE `articles`
-  MODIFY `article_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- Tilføj AUTO_INCREMENT i tabel `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Tilføj AUTO_INCREMENT i tabel `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
