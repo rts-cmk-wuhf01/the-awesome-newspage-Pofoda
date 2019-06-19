@@ -12,8 +12,27 @@ module.exports = (app) => {
       LEFT OUTER JOIN categories ON fk_category_id = category_id
       WHERE article_is_featured = 1
       `);
+
+      let [featuredArticlesMiddle] = await db.execute(`
+      SELECT 
+      *
+      FROM articles
+      LEFT OUTER JOIN categories ON fk_category_id = category_id
+      WHERE article_is_featured = 2
+      `)
+
+      let [featuredArticlesLeft] = await db.execute(`
+      SELECT 
+      *
+      FROM articles
+      LEFT OUTER JOIN categories ON fk_category_id = category_id
+      LEFT OUTER JOIN authors ON fk_author_id = author_id
+      WHERE article_is_featured = 3
+      `)
       
-      console.log(featuredArticlesRight);
+      // console.log(featuredArticlesRight);
+      // console.log(featuredArticlesMiddle);
+      // console.log(featuredArticlesLeft);
 
 
 
@@ -21,7 +40,9 @@ module.exports = (app) => {
       res.render('home', {
          "categories":categories,
          "dateTest":"2019-05-12",
-         "featuredArticlesRight":featuredArticlesRight
+         "featuredArticlesRight":featuredArticlesRight,
+         "featuredArticlesMiddle":featuredArticlesMiddle,
+         "featuredArticlesLeft":featuredArticlesLeft
       });
 
       // let now = new Date('2019-04-02 07:00:14');
