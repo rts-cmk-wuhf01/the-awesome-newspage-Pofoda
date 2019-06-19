@@ -1,8 +1,12 @@
 const mysql = require('../config/mysql');
 module.exports = (app) => {
 
-   app.get('/', (req, res, next) => {
+   app.get('/', async (req, res, next) => {
+      let db = await mysql.connect();
+      let [categories] = await db.execute('SELECT * FROM categories');
+      db.end();
       res.render('home', {
+         "categories":categories,
          "dateTest":"2019-05-12"
       });
 
@@ -11,8 +15,25 @@ module.exports = (app) => {
       // console.log(formattedDate);
    });
    
-   app.get('/catagories', (req, res, next) => {
-      res.render('cat-post');
+   // app.get('/catagories', (req, res, next) => {
+   //    res.render('cat-post');
+   // });
+   app.get('/categories/:category_id', async (req, res, next) => {
+      let db = await mysql.connect();
+      let [categories] = await db.execute('SELECT * FROM categories');
+      let [articles] = await db.execute(`
+         SELECT category_id, article_id, article_likes, category_title, article_title, article_image, article_postdate, author_name, article_text
+         FROM articles 
+         LEFT OUTER JOIN authors    ON fk_author_id = author_id
+         LEFT OUTER JOIN categories ON fk_category_id = category_id
+         WHERE fk_category_id = ?`, [req.params.category_id]);
+         db.end();
+         res.render("cat-post", {
+            "categories":categories,
+            "articles":articles
+         });
+      // her kan alle kategoriens artikler hentes osv...
+      
    });
    
    app.get('/contact', (req, res, next) => {
@@ -23,7 +44,7 @@ module.exports = (app) => {
       res.render('about');
    });
    
-   app.get('/single', (req, res, next) => {
+   app.get('/single/:article_id', (req, res, next) => {
       res.render('single-post');
    });
 
