@@ -29,7 +29,7 @@ module.exports = (app) => {
       LEFT OUTER JOIN authors ON fk_author_id = author_id
       WHERE article_is_featured = 3
       `)
-      
+
       // console.log(featuredArticlesRight);
       // console.log(featuredArticlesMiddle);
       // console.log(featuredArticlesLeft);
@@ -38,18 +38,18 @@ module.exports = (app) => {
 
       db.end();
       res.render('home', {
-         "categories":categories,
-         "dateTest":"2019-05-12",
-         "featuredArticlesRight":featuredArticlesRight,
-         "featuredArticlesMiddle":featuredArticlesMiddle,
-         "featuredArticlesLeft":featuredArticlesLeft
+         "categories": categories,
+         "dateTest": "2019-05-12",
+         "featuredArticlesRight": featuredArticlesRight,
+         "featuredArticlesMiddle": featuredArticlesMiddle,
+         "featuredArticlesLeft": featuredArticlesLeft
       });
 
       // let now = new Date('2019-04-02 07:00:14');
       // let formattedDate = app.locals.dateAndTime.format(now, 'D/M | ');
       // console.log(formattedDate);
    });
-   
+
    // app.get('/catagories', (req, res, next) => {
    //    res.render('cat-post');
    // });
@@ -62,28 +62,38 @@ module.exports = (app) => {
          LEFT OUTER JOIN authors    ON fk_author_id = author_id
          LEFT OUTER JOIN categories ON fk_category_id = category_id
          WHERE fk_category_id = ?`, [req.params.category_id]);
-         db.end();
-         res.render("cat-post", {
-            "categories":categories,
-            "articles":articles
-         });
+
+      let [featuredArticlesRight] = await db.execute(`
+         SELECT 
+         *
+         FROM articles
+         LEFT OUTER JOIN categories ON fk_category_id = category_id
+         WHERE article_is_featured = 1
+         `);
+
+      db.end();
+      res.render("cat-post", {
+         "featuredArticlesRight": featuredArticlesRight,
+         "categories": categories,
+         "articles": articles
+      });
       // her kan alle kategoriens artikler hentes osv...
-      
+
    });
-   
+
    app.get('/contact', (req, res, next) => {
       res.render('contact');
    });
-   
+
    app.get('/about', (req, res, next) => {
       res.render('about');
    });
-   
+
    app.get('/single/:article_id', (req, res, next) => {
       res.render('single-post');
    });
 
-   app.get('/database',  async (req,res,next)=>{
+   app.get('/database', async (req, res, next) => {
       let db = await mysql.connect();
       // udfør en (elelr flere) forespørgel(er)
       let [products] = await db.execute('SELECT * FROM products');
@@ -93,6 +103,6 @@ module.exports = (app) => {
       res.render('products', {
          'products': products
       });
-});
+   });
 
 };
