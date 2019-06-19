@@ -3,11 +3,25 @@ module.exports = (app) => {
 
    app.get('/', async (req, res, next) => {
       let db = await mysql.connect();
-      let [categories] = await db.execute('SELECT * FROM categories');
+      let [categories] = await db.execute('SELECT * FROM categories'); // Nav
+
+      let [featuredArticlesRight] = await db.execute(`
+      SELECT 
+      *
+      FROM articles
+      LEFT OUTER JOIN categories ON fk_category_id = category_id
+      WHERE article_is_featured = 1
+      `);
+      
+      console.log(featuredArticlesRight);
+
+
+
       db.end();
       res.render('home', {
          "categories":categories,
-         "dateTest":"2019-05-12"
+         "dateTest":"2019-05-12",
+         "featuredArticlesRight":featuredArticlesRight
       });
 
       // let now = new Date('2019-04-02 07:00:14');
@@ -22,7 +36,7 @@ module.exports = (app) => {
       let db = await mysql.connect();
       let [categories] = await db.execute('SELECT * FROM categories');
       let [articles] = await db.execute(`
-         SELECT category_id, article_id, article_likes, category_title, article_title, article_image, article_postdate, author_name, article_text
+         SELECT category_id, article_id, article_likes, category_title, article_title, article_image, article_postdate, author_name, article_text, category_title
          FROM articles 
          LEFT OUTER JOIN authors    ON fk_author_id = author_id
          LEFT OUTER JOIN categories ON fk_category_id = category_id

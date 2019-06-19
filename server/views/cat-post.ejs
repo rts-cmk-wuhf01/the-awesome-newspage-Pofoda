@@ -39,7 +39,7 @@
                                 <a href="#"><img src="/img/bg-img/<%=article.article_image %>" alt=""></a>
                             </div>
                             <div class="post-data">
-                                <a href="/category/<%=article.category_id %>" class="post-catagory"><%=article.category_title %></a>
+                                <a href="/categories/<%=article.category_id %>" class="post-catagory"><%= article.category_title %></a>
                                 <a href="/single/<%=article.article_id %>" class="post-title">
                                     <h6><%=article.article_title %></h6>
                                 </a>
@@ -81,13 +81,13 @@
                         <!-- Latest Posts Widget -->
                         <div class="latest-posts-widget mb-50">
 
-                            <!-- Single Featured Post -->
-                            <div class="single-blog-post small-featured-post d-flex">
-                                <div class="post-thumb">
-                                    <a href="#"><img src="/img/bg-img/19.jpg" alt=""></a>
-                                </div>
-                                <div class="post-data">
-                                    <a href="#" class="post-catagory">Finance</a>
+                                        <!-- Single Featured Post -->
+                                        <div class="single-blog-post small-featured-post d-flex">
+                                            <div class="post-thumb">
+                                                <a href="#"><img src="/img/bg-img/19.jpg" alt=""></a>
+                                            </div>
+                                            <div class="post-data">
+                                                <a href="/categories/<%=article.category_id %>" class="post-catagory"> category </a>
                                     <div class="post-meta">
                                         <a href="#" class="post-title">
                                             <h6>Pellentesque mattis arcu massa, nec fringilla turpis eleifend id.</h6>
@@ -96,6 +96,7 @@
                                     </div>
                                 </div>
                             </div>
+
 
                             <!-- Single Featured Post -->
                             <div class="single-blog-post small-featured-post d-flex">
