@@ -82,15 +82,31 @@ module.exports = (app) => {
    });
 
    app.get('/contact', (req, res, next) => {
+      
       res.render('contact');
    });
 
    app.get('/about', (req, res, next) => {
+      
       res.render('about');
    });
 
-   app.get('/single/:article_id', (req, res, next) => {
-      res.render('single-post');
+   app.get('/single/:article_id', async (req, res, next) => {
+      let db = await mysql.connect();
+      let [categories] = await db.execute('SELECT * FROM categories'); // Nav
+      let [articles] = await db.execute(`
+      SELECT category_id, article_id, article_likes, category_title, article_title, article_image, article_postdate, author_name, article_text, category_title
+      FROM articles
+      LEFT OUTER JOIN categories ON fk_category_id = category_id
+      LEFT OUTER JOIN authors    ON fk_author_id = author_id
+      `);
+      
+
+      db.end();
+      res.render('single-post', {
+         "categories": categories,
+         "articles": articles
+      });
    });
 
    app.get('/database', async (req, res, next) => {
