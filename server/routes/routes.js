@@ -100,7 +100,7 @@ module.exports = (app) => {
       LEFT OUTER JOIN categories ON fk_category_id = category_id
       LEFT OUTER JOIN authors    ON fk_author_id = author_id
       `);
-      
+
 
       db.end();
       res.render('single-post', {
@@ -118,6 +118,18 @@ module.exports = (app) => {
 
       res.render('products', {
          'products': products
+      });
+   });
+
+   app.get('/fisk/:tal/:type', (req, res, next) => {
+      let fiskdata = {
+         "antal": req.params.tal,
+         "type": req.params.type
+   }
+
+
+      res.render('fisk', {
+         "fiskdata":fiskdata
       });
    });
 
