@@ -82,12 +82,12 @@ module.exports = (app) => {
    });
 
    app.get('/contact', (req, res, next) => {
-      
+
       res.render('contact');
    });
 
    app.get('/about', (req, res, next) => {
-      
+
       res.render('about');
    });
 
@@ -125,11 +125,11 @@ module.exports = (app) => {
       let fiskdata = {
          "antal": req.params.tal,
          "type": req.params.type
-   }
+      }
 
 
       res.render('fisk', {
-         "fiskdata":fiskdata
+         "fiskdata": fiskdata
       });
    });
 
