@@ -42,10 +42,23 @@ module.exports = app => {
       res.redirect("/admin/categories");
    });
 
+
+
+
+   app.get("/admin/categories/edit/:category_id", async (req, res, next) => {
+      // denne route skal hente både alle kategorier og den ene kategori
+      // data skal sendes til template filen
+      let db = await mysql.connect();
+
+      let [result] = await db.execute('DELETE FROM categories WHERE category_id = ?', [req.params.category_id]);
+      db.end();
+      
+   });
+
    app.post("/admin/categories", async (req, res, next) => {
       // her skal vi modtage form data og indsætte det i databasen
       // send bruger tilbage til kategori admin listen
-      let category_title = 0;
+      let category_title = req.body.category_title;
       let db = await mysql.connect();
       let [result] = await db.execute(
          `

@@ -130,16 +130,16 @@ module.exports = (app) => {
       });
 
       // håndter valideringen, alle fejl pushes til et array så de er samlet ET sted
-      if (name == undefined || name == 'name') {
+      if (name == undefined || name == '') {
          return_message.push('Navn mangler');
       }
-      if (email == undefined || email == 'email') {
+      if (email == undefined || email == '') {
          return_message.push('Email mangler');
       }
-      if (subject == undefined || subject == 'subject') {
+      if (subject == undefined || subject == '') {
          return_message.push('Emne mangler');
       }
-      if (message == undefined || message == 'message') {
+      if (message == undefined || message == '') {
          return_message.push('Beskedteksten mangler');
       }
 
