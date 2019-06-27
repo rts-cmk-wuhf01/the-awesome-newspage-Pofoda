@@ -1,4 +1,13 @@
 const mysql = require('../config/mysql');
+async function getCategories() {
+   let db = await mysql.connect();
+   let [categories] = await db.execute(`
+      SELECT category_id, category_title 
+      FROM categories
+      ORDER BY category_title ASC`);
+   db.end();
+   return categories;
+};
 module.exports = (app) => {
 
    app.get('/', async (req, res, next) => {
@@ -50,6 +59,8 @@ module.exports = (app) => {
       // console.log(formattedDate);
    });
 
+   //------------------------------------------------------------------
+
    // app.get('/catagories', (req, res, next) => {
    //    res.render('cat-post');
    // });
@@ -81,15 +92,78 @@ module.exports = (app) => {
 
    });
 
+   //------------------------------------------------------------------
+
    app.get('/contact', (req, res, next) => {
 
       res.render('contact');
    });
 
+   //  tilføjes i routes.js filen f.eks. lige under app.get('/contact') endpoint
+   app.post('/contact', async (req, res, next) => {
+      let db = await mysql.connect();
+      // indsamling af værdierne og oprettelse af de nødvendige variabler.
+      let name = req.body.name;
+      let email = req.body.email;
+      let subject = req.body.subject;
+      let message = req.body.message;
+      let contactDate = new Date();
+      let return_message = [];
+      let result = await db.execute(`
+      INSERT INTO messages 
+      (message_name, message_email, message_subject, message_text, message_date) 
+      VALUES 
+      (?,?,?,?,?)`, [name, email, subject, message, contactDate]);
+      db.end();
+      // affected rows er større end nul, hvis en (eller flere) række(r) blev indsat
+      if (result[0].affectedRows > 0) {
+         return_message.push('Tak for din besked, vi vender tilbage hurtigst muligt');
+      } else {
+         return_message.push('Din besked blev ikke modtaget.... ');
+      }
+
+      let categories = await getCategories(); // denne har jeg ikke forklaret endnu! 
+      res.render('contact', {
+         'categories': categories,
+         'return_message': return_message.join(', '),
+         'values': req.body
+      });
+
+      // håndter valideringen, alle fejl pushes til et array så de er samlet ET sted
+      if (name == undefined || name == 'name') {
+         return_message.push('Navn mangler');
+      }
+      if (email == undefined || email == 'email') {
+         return_message.push('Email mangler');
+      }
+      if (subject == undefined || subject == 'subject') {
+         return_message.push('Emne mangler');
+      }
+      if (message == undefined || message == 'message') {
+         return_message.push('Beskedteksten mangler');
+      }
+
+      if (return_message.length > 0) {
+         // der er mindst 1 information der mangler, returner beskeden som en string.
+         let categories = await getCategories(); // denne forklares lige om lidt!
+         res.render('contact', {
+            'categories': categories,
+            'return_message': return_message.join(', '),
+            'values': req.body // læg mærke til vi "bare" sender req.body tilbage
+         });
+      } else {
+         res.send(req.body);
+      };
+   });
+
+   //------------------------------------------------------------------
+
    app.get('/about', (req, res, next) => {
 
       res.render('about');
    });
+
+   //------------------------------------------------------------------
 
    app.get('/single/:article_id', async (req, res, next) => {
       let db = await mysql.connect();
@@ -108,6 +182,8 @@ module.exports = (app) => {
          "articles": articles
       });
    });
+
+   //------------------------------------------------------------------
 
    app.get('/database', async (req, res, next) => {
       let db = await mysql.connect();
@@ -132,5 +208,7 @@ module.exports = (app) => {
          "fiskdata": fiskdata
       });
    });
+
+   //------------------------------------------------------------------
 
 };

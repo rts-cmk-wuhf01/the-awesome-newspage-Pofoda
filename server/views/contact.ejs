@@ -36,25 +36,31 @@
             <div class="row">
                 <div class="col-12 col-lg-8">
                     <div class="contact-form-area">
-                        <form action="#" method="post">
+                        <form method="post">
                             <div class="row">
                                 <div class="col-12 col-lg-6">
-                                    <input type="text" class="form-control" id="name" placeholder="Name">
+                                    <input type="text" class="form-control" id="name" placeholder="Name" name="name" value="<%= typeof values != 'undefined' ? values.email: '' %>">
                                 </div>
                                 <div class="col-12 col-lg-6">
-                                    <input type="email" class="form-control" id="email" placeholder="E-mail">
+                                    <input type="email" class="form-control" id="email" placeholder="E-mail"
+                                        name="email" value="<%= typeof values != 'undefined' ? values.email: '' %>">
                                 </div>
                                 <div class="col-12">
-                                    <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                    <input type="text" class="form-control" id="subject" placeholder="Subject"
+                                        name="subject" value="<%= typeof values != 'undefined' ? values.email: '' %>">
                                 </div>
                                 <div class="col-12">
-                                    <textarea name="message" class="form-control" id="message" cols="30" rows="10" placeholder="Message"></textarea>
+                                    <textarea name="message" class="form-control" id="message" cols="30" rows="10"
+                                        placeholder="Message"><%= typeof values != 'undefined' ? values.message : '' %></textarea>
                                 </div>
                                 <div class="col-12 text-center">
                                     <button class="btn newspaper-btn mt-30 w-100" type="submit">Send Message</button>
                                 </div>
                             </div>
                         </form>
+                        <% if( typeof return_message != 'undefined'){ %>
+                        <h4><%= return_message %></h4>
+                        <% } %>
                     </div>
                 </div>
 
@@ -95,8 +101,8 @@
     <!-- ##### All Javascript Files ##### -->
     <%- include('partials/11script.ejs')%>
     <!-- Google Maps -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwuyLRa1uKNtbgx6xAJVmWy-zADgegA2s"></script>
-<script src="/js/google-map/map-active.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAwuyLRa1uKNtbgx6xAJVmWy-zADgegA2s"></script>
+    <script src="/js/google-map/map-active.js"></script>
 </body>
 
 </html>
